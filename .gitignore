@@ -8,3 +8,4 @@ test/
 cuda.py
 main_local.py
 query_engine.py
+*.env

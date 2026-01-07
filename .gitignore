@@ -1,0 +1,10 @@
+models/
+cache_db/
+chroma_db/
+__pycache__/
+cache/
+test/
+*.db
+cuda.py
+main_local.py
+query_engine.py

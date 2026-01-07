@@ -1,3 +1,4 @@
+.env
 models/
 cache_db/
 chroma_db/
@@ -8,4 +9,4 @@ test/
 cuda.py
 main_local.py
 query_engine.py
-*.env
+env

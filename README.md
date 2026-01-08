@@ -31,95 +31,6 @@
 2. **语义向量检索**: 基于混合检索技术查找相关内容片段
 3. **页码精准查询**: 支持单页或页码范围的内容定位
 
-## 📁 项目结构
-
-```
-.
-├── main.py                    # 主程序入口
-├── cache_utils.py            # PDF缓存管理工具
-├── layered_memory.py         # 分层记忆管理器
-├── assets/
-│   └── file.pdf              # 待处理的PDF文档
-├── models/                   # 本地模型目录
-│   ├── bge-small-zh-v1.5/    # 嵌入模型
-│   └── bge-reranker-base/    # 重排序模型
-├── chroma_db/               # Chroma向量数据库
-└── .env.example             # 环境变量模板
-```
-
-## 🚀 快速开始
-
-### 1. 环境准备
-
-```bash
-# 克隆项目
-git clone <repository-url>
-cd <project-directory>
-
-# 创建虚拟环境
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# 或 venv\Scripts\activate  # Windows
-
-# 安装依赖
-pip install -r requirements.txt
-```
-
-### 2. 模型下载
-
-```bash
-# 创建模型目录
-mkdir -p models
-
-# 下载嵌入模型（约500MB）
-git lfs install
-git clone https://huggingface.co/BAAI/bge-small-zh-v1.5 models/bge-small-zh-v1.5
-
-# 下载重排序模型（约500MB）
-git clone https://huggingface.co/BAAI/bge-reranker-base models/bge-reranker-base
-```
-
-### 3. 配置文件
-
-复制环境变量模板并配置API密钥：
-
-```bash
-cp .env.example .env
-```
-
-编辑`.env`文件：
-```
-# 通义千问API配置
-QWEN_API_KEY=your_qwen_api_key_here
-QWEN_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-```
-
-### 4. 准备PDF文档
-
-将待处理的PDF文件放入`assets/`目录，或修改配置中的PDF路径：
-
-```python
-# 在CONFIG中修改
-"pdf_path": "./assets/your_document.pdf"
-```
-
-### 5. 启动系统
-
-```bash
-python main.py
-```
-
-## 📖 使用方法
-
-### 基本命令
-```
-请输入你的问题： [输入问题或命令]
-
-命令说明：
-  - quit：退出程序
-  - clear：清空对话记忆
-  - clear_cache：清空所有缓存
-```
 
 ### 示例对话
 
@@ -147,57 +58,6 @@ python main.py
 📎 来源：工具调用结果
 ```
 
-## 🔧 配置说明
-
-### 核心参数
-
-| 参数 | 默认值 | 说明 |
-|------|--------|------|
-| `max_chunk_size` | 300 | 文档分块最大字符数 |
-| `min_chunk_size` | 100 | 文档分块最小字符数 |
-| `chunk_overlap` | 30 | 分块重叠字符数 |
-| `retrieve_top_k` | 2 | 单次检索返回片段数 |
-| `short_term_max_rounds` | 3 | 短期记忆最大轮数 |
-| `llm_temperature` | 0.1 | LLM温度参数 |
-
-### 模型配置
-
-- **嵌入模型**: `BAAI/bge-small-zh-v1.5` (中文优化)
-- **重排序模型**: `BAAI/bge-reranker-base`
-- **LLM模型**: `qwen-plus` (可通过API配置切换)
-
-## 🧠 技术架构
-
-### 核心模块
-
-```
-1. 文档处理层
-   ├── PDF加载与解析
-   ├── 语义分块（段落+句子级）
-   └── 向量化存储
-
-2. 检索增强层
-   ├── BM25关键词检索
-   ├── Chroma向量检索
-   ├── 多查询扩展
-   └── 交叉编码器重排序
-
-3. 对话管理层
-   ├── 分层记忆系统
-   ├── 相关性判断
-   └── 多级缓存机制
-
-4. Agent工具层
-   ├── 元信息查询工具
-   ├── 语义检索工具
-   └── 页码查询工具
-```
-
-### 工作流程
-
-```
-用户提问 → 问题标准化 → 缓存检查 → 相关性判断 → 记忆管理 → Agent工具调用 → 结果生成 → 缓存存储
-```
 
 ## 📊 性能优化
 
@@ -213,24 +73,6 @@ python main.py
 ### 内存管理
 - 短期记忆限制轮数，防止上下文过长
 - 长期记忆自动摘要，保留重要信息
-
-## 🐛 常见问题
-
-### Q: 如何处理大型PDF？
-A: 系统采用语义分块策略，按段落和句子拆分，保证语义完整性。可通过调整`max_chunk_size`和`min_chunk_size`优化分块效果。
-
-### Q: 支持哪些格式的文档？
-A: 目前主要支持PDF格式，通过`llama-index`的`SimpleDirectoryReader`加载。
-
-### Q: 如何切换其他LLM模型？
-A: 修改`.env`文件中的API配置，或调整`llm_model`参数使用其他兼容OpenAI API的模型。
-
-### Q: 检索效果不理想怎么办？
-A: 可尝试以下方法：
-1. 调整`retrieve_top_k`参数增加检索数量
-2. 优化分块参数（`max_chunk_size`等）
-3. 检查嵌入模型是否适合你的文档类型
-
 
 
 ## 📄 许可证

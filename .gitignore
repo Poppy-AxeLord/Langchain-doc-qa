@@ -1,8 +1,17 @@
 # 虚拟环境
 env/
 venv/
+
+# 数据库和缓存
 chroma_db/
 cache_db/
+*.db
+*.sqlite3
+
+# 临时文件和旧文件
+old_main.py
+tmp/
+temp/
 
 # Python编译文件
 __pycache__/
@@ -43,13 +52,9 @@ htmlcov/
 .coverage.*
 .pytest_cache/
 
-# 数据库文件
-*.db
-*.sqlite3
-
-# 临时文件
-tmp/
-temp/
+# 依赖管理
+Pipfile.lock
+poetry.lock
 
 # 其他
 *.zip
